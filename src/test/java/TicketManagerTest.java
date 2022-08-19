@@ -2,9 +2,9 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 public class TicketManagerTest {
-    Ticket ticket0 = new Ticket(0, 400, "Сочи", "Казань", 80);
+    Ticket ticket0 = new Ticket(0, 400, "Сочи", "Казань", 90);
     Ticket ticket1 = new Ticket(1, 100, "Москва", "Казань", 60);
-    Ticket ticket2 = new Ticket(2, 400, "Сочи", "Казань", 90);
+    Ticket ticket2 = new Ticket(2, 400, "Сочи", "Казань", 80);
     Ticket ticket3 = new Ticket(3, 200, "Ростов", "Уфа", 180);
     Ticket ticket4 = new Ticket(4, 200, "Сочи", "Казань", 120);
     Ticket ticket5 = new Ticket(5, 600, "Воронеж", "Норильск", 60);
@@ -12,9 +12,10 @@ public class TicketManagerTest {
     Ticket ticket7 = new Ticket(7, 300, "Ростов", "Уфа", 150);
 
     @Test
-    public void shouldFindAllAndSortArray() {
+    public void shouldFindAllAndFlightTimeComparator() {
         TicketRepository testRepository = new TicketRepository();
         TicketManager manager = new TicketManager(testRepository);
+        TicketByFlightTimeComparator comparator = new TicketByFlightTimeComparator();
         manager.add(ticket0);
         manager.add(ticket1);
         manager.add(ticket2);
@@ -24,12 +25,12 @@ public class TicketManagerTest {
         manager.add(ticket6);
         manager.add(ticket7);
 
-        Ticket[] expected = {ticket4, ticket0,ticket2};
-        Ticket[] actual = manager.findAll("Сочи", "Казань");
+        Ticket[] expected = {ticket2, ticket0,ticket4};
+        Ticket[] actual = manager.findAll("Сочи", "Казань", comparator);
         Assertions.assertArrayEquals(expected, actual);
 
-        Ticket[] expected1 = {ticket3,ticket7, ticket6};
-        Ticket[] actual1 = manager.findAll("Ростов", "Уфа");
+        Ticket[] expected1 = {ticket6,ticket7, ticket3};
+        Ticket[] actual1 = manager.findAll("Ростов", "Уфа", comparator);
         Assertions.assertArrayEquals(expected1, actual1);
     }
 }
