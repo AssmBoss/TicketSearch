@@ -12,7 +12,7 @@ public class TicketManagerTest {
     Ticket ticket7 = new Ticket(7, 300, "Ростов", "Уфа", 150);
 
     @Test
-    public void shouldFindAllAndSortArray() {
+    public void shouldFindThreeTicketsAndSortArray() {
         TicketRepository testRepository = new TicketRepository();
         TicketManager manager = new TicketManager(testRepository);
         manager.add(ticket0);
@@ -27,9 +27,42 @@ public class TicketManagerTest {
         Ticket[] expected = {ticket4, ticket0,ticket2};
         Ticket[] actual = manager.findAll("Сочи", "Казань");
         Assertions.assertArrayEquals(expected, actual);
+    }
 
-        Ticket[] expected1 = {ticket3,ticket7, ticket6};
-        Ticket[] actual1 = manager.findAll("Ростов", "Уфа");
-        Assertions.assertArrayEquals(expected1, actual1);
+    @Test
+    public void shouldFindOneTicket() {
+        TicketRepository testRepository = new TicketRepository();
+        TicketManager manager = new TicketManager(testRepository);
+        manager.add(ticket0);
+        manager.add(ticket1);
+        manager.add(ticket2);
+        manager.add(ticket3);
+        manager.add(ticket4);
+        manager.add(ticket5);
+        manager.add(ticket6);
+        manager.add(ticket7);
+
+        Ticket[] expected = {ticket1};
+        Ticket[] actual = manager.findAll("Москва", "Казань");
+        Assertions.assertArrayEquals(expected, actual);
+    }
+
+    @Test
+    public void shouldFindNoTickets() {
+        TicketRepository testRepository = new TicketRepository();
+        TicketManager manager = new TicketManager(testRepository);
+        manager.add(ticket0);
+        manager.add(ticket1);
+        manager.add(ticket2);
+        manager.add(ticket3);
+        manager.add(ticket4);
+        manager.add(ticket5);
+        manager.add(ticket6);
+        manager.add(ticket7);
+
+
+        Ticket[] expected = new Ticket[0];
+        Ticket[] actual = manager.findAll("Москва", "Уфа");
+        Assertions.assertArrayEquals(expected, actual);
     }
 }
