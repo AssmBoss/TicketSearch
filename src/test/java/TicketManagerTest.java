@@ -12,10 +12,11 @@ public class TicketManagerTest {
     Ticket ticket7 = new Ticket(7, 300, "Ростов", "Уфа", 150);
 
     @Test
-    public void shouldFindAllAndFlightTimeComparator() {
+    public void shouldFindThreeTicketsAndSortArray() {
         TicketRepository testRepository = new TicketRepository();
         TicketManager manager = new TicketManager(testRepository);
         TicketByFlightTimeComparator comparator = new TicketByFlightTimeComparator();
+
         manager.add(ticket0);
         manager.add(ticket1);
         manager.add(ticket2);
@@ -25,12 +26,49 @@ public class TicketManagerTest {
         manager.add(ticket6);
         manager.add(ticket7);
 
-        Ticket[] expected = {ticket2, ticket0,ticket4};
+        Ticket[] expected = {ticket2, ticket0, ticket4};
         Ticket[] actual = manager.findAll("Сочи", "Казань", comparator);
         Assertions.assertArrayEquals(expected, actual);
+    }
 
-        Ticket[] expected1 = {ticket6,ticket7, ticket3};
-        Ticket[] actual1 = manager.findAll("Ростов", "Уфа", comparator);
-        Assertions.assertArrayEquals(expected1, actual1);
+    @Test
+    public void shouldFindOneTicket() {
+        TicketRepository testRepository = new TicketRepository();
+        TicketManager manager = new TicketManager(testRepository);
+        TicketByFlightTimeComparator comparator = new TicketByFlightTimeComparator();
+
+        manager.add(ticket0);
+        manager.add(ticket1);
+        manager.add(ticket2);
+        manager.add(ticket3);
+        manager.add(ticket4);
+        manager.add(ticket5);
+        manager.add(ticket6);
+        manager.add(ticket7);
+
+        Ticket[] expected = {ticket1};
+        Ticket[] actual = manager.findAll("Москва", "Казань", comparator);
+        Assertions.assertArrayEquals(expected, actual);
+    }
+
+    @Test
+    public void shouldFindNoTickets() {
+        TicketRepository testRepository = new TicketRepository();
+        TicketManager manager = new TicketManager(testRepository);
+        TicketByFlightTimeComparator comparator = new TicketByFlightTimeComparator();
+
+        manager.add(ticket0);
+        manager.add(ticket1);
+        manager.add(ticket2);
+        manager.add(ticket3);
+        manager.add(ticket4);
+        manager.add(ticket5);
+        manager.add(ticket6);
+        manager.add(ticket7);
+
+
+        Ticket[] expected = new Ticket[0];
+        Ticket[] actual = manager.findAll("Москва", "Уфа", comparator);
+        Assertions.assertArrayEquals(expected, actual);
     }
 }
